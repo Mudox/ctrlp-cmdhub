@@ -1,0 +1,7 @@
+# vim: noexpandtab list listchars=tab\:▸-
+
+# NOTE:
+# - Use TAB characters to separate titles and commands.
+# - Comment lines (start with a '#') and empty lines are ignored
+
+Edit ctrlp-cmdhub data file in a tab			EditCmdHubDataFile
