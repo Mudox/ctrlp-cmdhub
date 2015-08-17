@@ -84,8 +84,10 @@ endfunction
 "  a:str    the selected string
 
 function! ctrlp#cmdhub#accept(mode, str)
-  execute s:title_cmds[a:str]
+  let cmd = s:title_cmds[a:str]
   call ctrlp#exit()
+  redraw!
+  execute cmd
 endfunction
 
 " (optional) Do something before enterting ctrlp
