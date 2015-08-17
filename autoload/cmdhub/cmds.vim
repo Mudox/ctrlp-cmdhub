@@ -7,13 +7,8 @@ endif
 let s:loaded = 1
 " }}}1
 
-" can be set by users.
-let g:ctrlp_cmdhub_config_file_path = expand(get(
-      \ g:,
-      \ 'ctrlp_cmdhub_config_file_path',
-      \ '~/.ctrlp-cmdhub'))
-
-command EditCmdHubDataFile execute 'tabnew ' . g:ctrlp_cmdhub_config_file_path
+let s:data_file_path = expand('~/.ctrlp-cmdhub')
+command EditCmdHubDataFile execute 'new ' . s:data_file_path
 
 " center repository to hold registered items, not those in data file.
 let g:registered_items = {}
@@ -32,20 +27,20 @@ function cmdhub#cmds#register(title, cmd)                                       
   end
 endfunction "  }}}1
 
+let s:data_file_template_path = expand('<sfile>:p:h')
+      \. '/../../data_file_template'
+
 function cmdhub#cmds#all_items()                                                 " {{{1
   let all_items = copy(g:registered_items)
 
-  let data_file_template_path = expand('<sfile>:p:h')
-        \. '/../../data_file_template'
-
   " if data file not exists, create & populate it with initial content.
-  if !filereadable(g:ctrlp_cmdhub_config_file_path)
-    let template = readfile(data_file_template_path)
-    call writefile(template, g:ctrlp_cmdhub_config_file_path)
+  if !filereadable(s:data_file_path)
+    let template = readfile(s:data_file_template_path)
+    call writefile(template, s:data_file_path)
   endif
 
   " read & filter out empty & comment lines.
-  let lines = filter(readfile(g:ctrlp_cmdhub_config_file_path),
+  let lines = filter(readfile(s:data_file_path),
         \ 'v:val !~ "^\\s*$" && v:val !~ "^#"')
 
   " split each line by tabs.
