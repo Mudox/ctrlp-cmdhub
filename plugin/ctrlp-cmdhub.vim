@@ -1,3 +1,12 @@
+" vim: foldmethod=marker
+
+" GUARD {{{1
+if exists("s:loaded") || &cp || version < 700
+  finish
+endif
+let s:loaded = 1
+" }}}1
+
 command! CtrlPCmdHub cal ctrlp#init(ctrlp#cmdhub#id())
 
 nnoremap <Plug>(ctrlp-cmdhub) :<C-U>CtrlPCmdHub<Cr>
