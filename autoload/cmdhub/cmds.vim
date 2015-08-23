@@ -8,7 +8,10 @@ let s:loaded = 1
 " }}}1
 
 let s:data_file_path = expand('~/.ctrlp-cmdhub')
-command EditCmdHubDataFile execute 'new ' . s:data_file_path
+
+function EditCmdHubDataFile()
+  call mudox#query_open_file#New(s:data_file_path)
+endfunction
 
 " center repository to hold registered items, not those in data file.
 let g:registered_items = {}
