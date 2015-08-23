@@ -24,3 +24,16 @@ function CmdHubEditCommandFile()
 
   call mudox#query_open_file#New(fname)
 endfunction
+
+function CmdHubExecuteCommandFrom(fname)
+  let command_file_name = a:fname =~ '\.vim$' ?
+        \ a:fname : a:fname . '.vim'
+
+  let command_file_path = s:cmds_dir . command_file_name
+  if empty(glob(command_file_path))
+    echoerr '* cmdhub: missing command file: ' . command_file_path
+    return
+  endif
+
+  execute 'source ' . command_file_path
+endfunction
