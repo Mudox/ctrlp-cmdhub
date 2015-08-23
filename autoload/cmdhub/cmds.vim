@@ -46,8 +46,16 @@ function cmdhub#cmds#all_items()                                                
   let lines = filter(readfile(s:data_file_path),
         \ 'v:val !~ "^\\s*$" && v:val !~ "^#"')
 
+  " transform '#command_file_name' to
+  " 'call CmdHubExecuteCommandFrom("command_file_name")
+  for i in range(len(lines))
+    let lines[i] = substitute(lines[i], '\t\zs#\(.*\)$',
+          \ 'call CmdHubExecuteCommandFrom("\1")', '')
+  endfor
+
   " split each line by tabs.
-  let title_cmd_tuples = filter(map(lines, 'split(v:val, "\\t\\+")'), '! empty(v:val)')
+  let title_cmd_tuples = filter(map(lines, 'split(v:val, "\\t\\+")'),
+        \ '! empty(v:val)')
 
   " add to all_items dict
   for [title, cmd] in title_cmd_tuples
