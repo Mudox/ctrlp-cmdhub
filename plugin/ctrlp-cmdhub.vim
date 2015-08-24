@@ -7,7 +7,7 @@ endif
 let s:loaded = 1
 " }}}1
 
-command! CtrlPCmdHub cal ctrlp#init(ctrlp#cmdhub#id())
+command CtrlPCmdHub call ctrlp#init(ctrlp#cmdhub#id())
 
 nnoremap <Plug>(ctrlp-cmdhub) :<C-U>CtrlPCmdHub<Cr>
 
