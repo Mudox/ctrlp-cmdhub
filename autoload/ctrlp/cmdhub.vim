@@ -5,19 +5,6 @@
 " Description:   Example extension for ctrlp.vim
 " =============================================================================
 
-" To load this extension into ctrlp, add this to your vimrc:
-"
-"     let g:ctrlp_extensions = ['cmdhub']
-"
-" Where 'cmdhub' is the name of the file 'cmdhub.vim'
-"
-" For multiple extensions:
-"
-"     let g:ctrlp_extensions = [
-"         \ 'my_extension',
-"         \ 'my_other_extension',
-"         \ ]
-
 " GUARD                                                                             {{{1
 if exists("s:loaded") || &cp || version < 700
   finish

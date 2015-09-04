@@ -30,7 +30,7 @@ function CmdHubEditCommandFile()
   endif
 
   silent! execute '!mkdir -p '. s:cmds_dir
-  call mudox#query_open_file#New(s:cmds_dir . '/' . fname)
+  call Qpen(s:cmds_dir . '/' . fname)
 endfunction
 
 function CmdHubExecuteCommandFrom(fname)

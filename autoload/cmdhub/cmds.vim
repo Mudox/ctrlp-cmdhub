@@ -10,7 +10,7 @@ let s:loaded = 1
 let s:data_file_path = expand('~/.ctrlp-cmdhub')
 
 function EditCmdHubDataFile()
-  call mudox#query_open_file#New(s:data_file_path)
+  call Qpen(s:data_file_path)
 endfunction
 
 " center repository to hold registered items, not those in data file.
