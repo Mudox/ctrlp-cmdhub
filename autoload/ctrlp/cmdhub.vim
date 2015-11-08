@@ -59,7 +59,7 @@ call add(g:ctrlp_ext_vars, {
 
 
 function! ctrlp#cmdhub#init()
-  let s:title_cmds = cmdhub#cmds#all_items()
+  let s:title_cmds = cmdhub#core#title_cmd_dict()
   return keys(s:title_cmds)
 endfunction
 

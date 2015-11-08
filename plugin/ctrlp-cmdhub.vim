@@ -11,37 +11,42 @@ command CtrlPCmdHub call ctrlp#init(ctrlp#cmdhub#id())
 
 nnoremap <Plug>(ctrlp-cmdhub) :<C-U>CtrlPCmdHub<Cr>
 
-let s:cmds_dir = get(g:, 'ctrlp_cmdhub_cmds_dir',
-      \ expand('~/.vim/ctrlp-cmdhub-cmds'))
-let s:cmds_dir = substitute(s:cmds_dir, '/$', '', '')
+let g:ctrlp_cmdhub_jobs_dir = get(g:, 'ctrlp_cmdhub_jobs_dir',
+      \ expand('~/.ctrlp-cmdhub-jobs'))
+let g:ctrlp_cmdhub_jobs_dir = substitute(g:ctrlp_cmdhub_jobs_dir, '/$', '', '')
 
-function ListCmdHubCommandFiles(lead, cmd, pos)
-  let items = glob(printf('%s/*%s*.vim', s:cmds_dir, a:lead), 0, 1)
+let s:jobs_dir = g:ctrlp_cmdhub_jobs_dir
+
+if s:jobs_dir[len(s:jobs_dir) -1] == '/'
+  let s:jobs_dir = s:jobs_dir[:-2]
+endif
+
+" completion helper
+function ListCmdHubJobFiles(lead, cmd, pos)
+  let items = glob(printf('%s/*%s*.vim', s:jobs_dir, a:lead), 0, 1)
   call map(items, 'fnamemodify(v:val, ":t")')
   return items
 endfunction
 
-function CmdHubEditCommandFile()
-  let fname = input('cmd file name: ', '', 'customlist,ListCmdHubCommandFiles')
+function CmdHubEditJobFile()
+  let fname = input('cmd file name: ', '', 'customlist,ListCmdHubJobFiles')
   if empty(fname) | return | endif
 
   if fname !~ '\.vim$'
     let fname .= '.vim'
   endif
 
-  silent! execute '!mkdir -p '. s:cmds_dir
-  call Qpen(s:cmds_dir . '/' . fname)
+  silent! execute '!mkdir -p '. s:jobs_dir
+  call Qpen(s:jobs_dir . '/' . fname)
 endfunction
 
-function CmdHubExecuteCommandFrom(fname)
-  let command_file_name = a:fname =~ '\.vim$' ?
-        \ a:fname : a:fname . '.vim'
-
-  let command_file_path = s:cmds_dir . '/' . command_file_name
-  if empty(glob(command_file_path))
-    echoerr '* cmdhub: missing command file: ' . command_file_path
+function CmdHubExecuteJobFrom(fname)
+  if empty(glob(a:fname))
+    echohl WarningMsg
+    echo 'ctrlp-cmdhub: missing job file ' . a:fname
+    echohl None
     return
   endif
 
-  execute 'source ' . command_file_path
+  execute 'source ' . a:fname
 endfunction
