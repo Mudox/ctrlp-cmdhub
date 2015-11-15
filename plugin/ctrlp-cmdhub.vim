@@ -37,7 +37,14 @@ function CmdHubEditJobFile()
   endif
 
   silent! execute '!mkdir -p '. s:jobs_dir
-  call Qpen(s:jobs_dir . '/' . fname)
+  try
+    call Qpen(s:jobs_dir . '/' . fname)
+  catch /^Qpen: Canceled$/
+    echohl WarningMsg
+    echo '* user canceled *'
+    echohl None
+  endtry
+endif
 endfunction
 
 function CmdHubExecuteJobFrom(fname)

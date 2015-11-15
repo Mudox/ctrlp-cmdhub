@@ -10,7 +10,13 @@ let s:loaded = 1
 let s:menu_file_path = expand('~/.ctrlp-cmdhub')
 
 function EditCmdHubMenuFile()
-  call Qpen(s:menu_file_path)
+  try
+    call Qpen(s:menu_file_path)
+  catch /^Qpen: Canceled$/
+    echohl WarningMsg
+    echo '* user canceled *'
+    echohl None
+  endtry
 endfunction
 
 " center repository to hold registered items, not those in menu file.
